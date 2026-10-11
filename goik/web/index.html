@@ -150,6 +150,8 @@
     .actions { margin-left: 0; justify-content: flex-start; }
     main { grid-template-columns: 1fr; grid-template-rows: min(100vw, 70vh) 55vh; }
     .console { border-left: 0; border-top: 1px solid var(--line); }
+    /* Phones zoom in on text fields with smaller text */
+    #command { font-size: 16px; }
   }
 </style>
 </head>
@@ -183,7 +185,8 @@
     <pre id="output" aria-live="polite"></pre>
     <form id="form" autocomplete="off">
       <label for="command">›</label>
-      <input id="command" spellcheck="false" placeholder="Loading…" disabled>
+      <input id="command" type="text" autocapitalize="none" autocorrect="off" autocomplete="off" spellcheck="false"
+             enterkeyhint="send" placeholder="Loading…" disabled>
     </form>
   </section>
 </main>

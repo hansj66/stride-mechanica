@@ -4,8 +4,8 @@ Start the simulator from the `goik/goik` folder (`make run`, `go run .` or the b
 for `scripts`, `pods` and `cad` relative to the current folder.
 
 It opens a window with four views and a command shell in the terminal. Type commands in the shell; `help` lists them
-all, and `help <section>` shows one section (design, walk, pose, scripts, servos). `/quit` closes both the shell and
-the window, and closing the window ends the shell.
+all, and `help <section>` shows one section (design, walk, pose, scripts, servos). Command names can be typed in
+any case (`Walk` is `walk`). `/quit` closes both the shell and the window, and closing the window ends the shell.
 
 At start up the views window fills the left 2/3 of the screen (without the taskbar), and the terminal with the shell
 the right 1/3, with the focus on the shell. The terminal is only moved on Windows, and only if it is a terminal window

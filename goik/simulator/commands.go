@@ -130,7 +130,8 @@ func (s *Shell) Dispatch(command string) error {
 		return nil
 	}
 
-	execute, ok := s.dispatchMap[args[0]]
+	// Command names in any case: phone keyboards capitalize the first letter
+	execute, ok := s.dispatchMap[strings.ToLower(args[0])]
 	if !ok {
 		return fmt.Errorf("unknown command: '%s'", args[0])
 	}

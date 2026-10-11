@@ -13,7 +13,8 @@ Published version: [hansj66.github.io/stride-mechanica](https://hansj66.github.i
 ## Using it
 
 * Type commands in the shell on the right, as in the terminal. Up and down go through the commands typed before.
-  `help` lists them all (see [Using the simulator](simulator.md)).
+  `help` lists them all (see [Using the simulator](simulator.md)). Phones don't capitalize or autocorrect the
+  command line, and command names work in any case anyway.
 * The buttons at the top run the demos: the hexapod demo script (`reset 2`, `run demo`), the insect walking a curve
   (`reset 8`, `walk 0 40 10`), the centipede demo script (`reset 9`, `run centipede`). **Stop** halts the pod and the
   script, **Help** runs `help`.
