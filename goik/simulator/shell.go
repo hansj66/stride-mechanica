@@ -15,15 +15,15 @@
 package simulator
 
 import (
+	"io/fs"
 	"log"
 	"mechanica/control"
 	"mechanica/robot"
 	"mechanica/script"
+	"os"
 	"strings"
 	"sync"
 	"time"
-
-	"github.com/borud/chatui"
 )
 
 type dispatchFunc func(args []string) error
@@ -46,15 +46,19 @@ type Shell struct {
 	mu sync.Mutex
 	// Set by the clear command. The game loop clears the XY view's body path and foot trails
 	clearTrails bool
-	// The chat UI, and a channel that is closed when it has exited
-	ui   *chatui.ChatUI
+	// Where scripts are read from, and where pods are saved (see files.go)
+	scripts fs.FS
+	pods    podStore
+	// The console (a terminal, or the browser page), and a channel that is closed when it has exited
+	ui   console
 	done chan struct{}
 }
 
 func NewShell(pod *robot.Pod) *Shell {
 	// The command channel is buffered, since the chat UI sends commands from its event loop and
 	// would freeze until the previous command has been dispatched
-	s := Shell{Pod: pod, Gamepad: control.NewController(), outputCh: make(chan string, 100), commandCh: make(chan string, 16), done: make(chan struct{})}
+	s := Shell{Pod: pod, Gamepad: control.NewController(), outputCh: make(chan string, 100), commandCh: make(chan string, 16), done: make(chan struct{}),
+		scripts: os.DirFS(SCRIPTS_FOLDER), pods: newPodStore()}
 
 	s.Pod.SetDebugChannel(s.outputCh)
 
@@ -105,63 +109,57 @@ func NewShell(pod *robot.Pod) *Shell {
 
 func (s *Shell) Run() {
 
-	// The simulator window closes when the chat UI exits
+	// The simulator window closes when the console exits
 	defer close(s.done)
 
-	chatui := chatui.New(chatui.Config{
-		OutputCh:     s.outputCh,
-		CommandCh:    s.commandCh,
-		DynamicColor: false,
-		BlockCtrlC:   true,
-		HistorySize:  10,
-	})
+	ui := newConsole(s.outputCh, s.commandCh)
 	s.mu.Lock()
-	s.ui = chatui
+	s.ui = ui
 	s.mu.Unlock()
 
 	go func() {
 		for command := range s.commandCh {
 			if strings.ToLower(command) == "/quit" {
-				chatui.Stop()
+				ui.Stop()
 				return
 			}
 			err := s.Dispatch(command)
 			if err != nil {
 				s.outputCh <- err.Error()
 			}
-			chatui.SetStatus("last command was: " + command)
+			ui.SetStatus("last command was: " + command)
 		}
 	}()
 
+	// The banner is queued (the output channel is buffered), so it comes before the output of any command
+	s.outputCh <- "----------------------------------------"
+	s.outputCh <- "Stride Mechanica"
+	s.outputCh <- "Multi-Legged Machine Design & Simulation"
+	s.outputCh <- "Design · Simulate · Build"
+	s.outputCh <- ""
+	s.outputCh <- "Copyright Hans Jørgen Grimstad 2024"
+	s.outputCh <- "www.TimeExpander.com"
+	s.outputCh <- "----------------------------------------"
+	s.outputCh <- ""
+	s.outputCh <- "Type 'help' for a list of commands"
+
 	go func() {
 		// this is done in a goroutine because it will block if the UI is not running.
-		chatui.SetStatus("type /quit to exit")
-
-		s.outputCh <- "----------------------------------------"
-		s.outputCh <- "Stride Mechanica"
-		s.outputCh <- "Multi-Legged Machine Design & Simulation"
-		s.outputCh <- "Design · Simulate · Build"
-		s.outputCh <- ""
-		s.outputCh <- "Copyright Hans Jørgen Grimstad 2024"
-		s.outputCh <- "www.TimeExpander.com"
-		s.outputCh <- "----------------------------------------"
-		s.outputCh <- ""
-		s.outputCh <- "Type 'help' for a list of commands"
-
+		ui.SetStatus(START_STATUS)
 	}()
 
-	err := chatui.Run()
+	err := ui.Run()
 	if err != nil {
 		log.Print(err)
 	}
 }
 
-// Done returns a channel that is closed when the chat UI has exited
+// Done returns a channel that is closed when the console has exited
 func (s *Shell) Done() <-chan struct{} {
 	return s.done
 }
 
-// Stop stops the chat UI (restoring the terminal) and waits briefly for it to exit
+// Stop stops the console (restoring the terminal) and waits briefly for it to exit
 func (s *Shell) Stop() {
 	s.mu.Lock()
 	ui := s.ui

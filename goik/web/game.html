@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stride Mechanica views</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+</style>
+<script src="wasm_exec.js"></script>
+</head>
+<body>
+<script>
+  // The simulator's views. This page runs in a frame in index.html, whose console (window.mechanicaConsole) shows
+  // the shell: see simulator/console_js.go. Opened on its own, the shell's output goes to the browser's console.
+  const standalone = {
+    print: line => console.log(line),
+    status: () => {},
+    ready: () => console.log("Ready: call mechanicaCommand('help') in this console"),
+    download: (name, text) => console.log(name, text),
+    loading: () => {},
+    failed: message => console.error(message),
+  };
+  // Looked up on every use, so it doesn't matter whether this page or the page around it is ready first
+  Object.defineProperty(window, "mechanicaConsole", {
+    get: () => (window.parent !== window && window.parent.mechanicaConsole) || standalone,
+  });
+
+  async function start() {
+    const page = () => window.mechanicaConsole;
+    try {
+      const response = await fetch("mechanica.wasm");
+      if (!response.ok) throw new Error(`mechanica.wasm: ${response.status} ${response.statusText}`);
+      // Read it in chunks, to show how much has arrived
+      const reader = response.body.getReader();
+      const chunks = [];
+      let received = 0;
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(value);
+        received += value.length;
+        page().loading(received);
+      }
+      const bytes = new Uint8Array(received);
+      let offset = 0;
+      for (const chunk of chunks) {
+        bytes.set(chunk, offset);
+        offset += chunk.length;
+      }
+      const go = new Go();
+      const { instance } = await WebAssembly.instantiate(bytes, go.importObject);
+      await go.run(instance);
+    } catch (err) {
+      page().failed(String(err));
+    }
+  }
+  start();
+</script>
+</body>
+</html>

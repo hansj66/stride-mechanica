@@ -148,11 +148,16 @@ func NewCadAssembly(b *BodyDefinition, name string) (*CadAssembly, error) {
 
 // Save writes the assembly as indented JSON
 func (a *CadAssembly) Save(path string) error {
-	data, err := json.MarshalIndent(a, "", "  ")
+	data, err := a.JSON()
 	if err != nil {
 		return err
 	}
 	return os.WriteFile(path, data, 0644)
+}
+
+// JSON returns the assembly as indented JSON
+func (a *CadAssembly) JSON() ([]byte, error) {
+	return json.MarshalIndent(a, "", "  ")
 }
 
 // cadConversion rotates 180 degrees around X: Stride Mechanica (+Z towards the ground) to CAD (Z up)

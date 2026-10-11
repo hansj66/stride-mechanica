@@ -1,0 +1,44 @@
+# Builds the browser version of the simulator (go run ./cmd/web -build) and publishes it on GitHub Pages.
+# Needs Settings > Pages > Build and deployment > Source: "GitHub Actions" (see goik/docs/browser.md)
+name: Browser version
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; a newer push replaces a waiting one
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+          cache-dependency-path: goik/go.sum
+      - name: Build
+        working-directory: goik
+        run: go run ./cmd/web -build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: goik/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

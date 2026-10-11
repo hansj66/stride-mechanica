@@ -16,6 +16,7 @@ package simulator
 
 import (
 	"fmt"
+	"io/fs"
 	"log"
 	"mechanica/robot"
 	"mechanica/views"
@@ -142,18 +143,29 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 	return window_size, window_size * outsideHeight / outsideWidth
 }
 
-// Run starts the simulator. With layout, the views window fills the left 2/3 of the screen and the terminal
-// running the shell the right 1/3 (the terminal only on Windows, see windowLayout_windows.go).
-func Run(layout bool) {
+// Options for starting the simulator
+type Options struct {
+	// The views window fills the left 2/3 of the screen and the terminal running the shell the right 1/3 (the
+	// terminal only on Windows, see windowLayout_windows.go)
+	Layout bool
+	// Where scripts are read from. Nil: the scripts folder
+	Scripts fs.FS
+}
+
+// Run starts the simulator
+func Run(options Options) {
 
 	// Create the pod body and define a default gait
 	pod := robot.NewPod(robot.NewExampleHexapod2())
 
 	// Create the command shell
 	shell := NewShell(pod)
+	if options.Scripts != nil {
+		shell.scripts = options.Scripts
+	}
 	go shell.Run()
 	g := NewGame(shell)
-	if layout {
+	if options.Layout {
 		// The terminal is the window in the foreground before the views window opens
 		g.layout = newWindowLayout()
 	}

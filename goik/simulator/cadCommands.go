@@ -17,30 +17,11 @@ package simulator
 import (
 	"fmt"
 	"mechanica/robot"
-	"os"
-	"os/exec"
-	"path/filepath"
 	"strings"
 )
 
-// CAD export (see docs/cad-export.md and cad/goik_cad.py)
-
-const CAD_FOLDER = "cad"
-
-var CAD_OUTPUT_FOLDER = filepath.Join(CAD_FOLDER, "out")
-
-// cadPython returns the Python of the CAD virtual environment, or "" if it is not installed
-func cadPython() string {
-	for _, p := range []string{
-		filepath.Join(CAD_FOLDER, ".venv", "Scripts", "python.exe"),
-		filepath.Join(CAD_FOLDER, ".venv", "bin", "python"),
-	} {
-		if _, err := os.Stat(p); err == nil {
-			return p
-		}
-	}
-	return ""
-}
+// CAD export (see docs/cad-export.md and cad/goik_cad.py). The assembly description is written to cad/out and
+// built with CadQuery on the desktop (cadOutput_desktop.go), and downloaded in the browser version (cadOutput_js.go)
 
 func (s *Shell) executeExportCadCmd(args []string) error {
 	s.outputCh <- fmt.Sprintf("%+v", args)
@@ -57,38 +38,5 @@ func (s *Shell) executeExportCadCmd(args []string) error {
 	if err != nil {
 		return err
 	}
-	if err := os.MkdirAll(CAD_OUTPUT_FOLDER, 0755); err != nil {
-		return err
-	}
-	path := filepath.Join(CAD_OUTPUT_FOLDER, name+".json")
-	if err := assembly.Save(path); err != nil {
-		return err
-	}
-	s.outputCh <- fmt.Sprintf("Wrote %s (%s, rest pose)", path, assembly.String())
-
-	python := cadPython()
-	if python == "" {
-		s.outputCh <- "CadQuery is not installed, so no STEP file was built. Install it with: python cad/tools.py setup"
-		return nil
-	}
-	s.outputCh <- "Building the STEP assembly and STL with CadQuery ..."
-	go s.buildCad(python, path)
-	return nil
-}
-
-// buildCad runs the CadQuery script. It runs on its own goroutine (without the shell lock),
-// since building a model takes a few seconds
-func (s *Shell) buildCad(python string, path string) {
-	output, err := exec.Command(python, filepath.Join(CAD_FOLDER, "goik_cad.py"), path).CombinedOutput()
-	for _, line := range strings.Split(strings.TrimSpace(string(output)), "\n") {
-		line = strings.TrimSpace(line)
-		// CadQuery deprecation warnings are of no interest here
-		if line == "" || strings.Contains(line, "Warning") || strings.HasPrefix(line, "warn(") {
-			continue
-		}
-		s.outputCh <- "\t" + line
-	}
-	if err != nil {
-		s.outputCh <- fmt.Sprintf("Building the CAD model failed: %v", err)
-	}
+	return s.outputCad(assembly, name)
 }

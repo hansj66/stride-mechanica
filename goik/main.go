@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//go:build !js
+
 package main
 
 import (
@@ -24,5 +26,5 @@ func main() {
 	// defer profile.Start(profile.ProfilePath(".")).Stop()
 	layout := flag.Bool("layout", true, "place the views window on the left 2/3 of the screen and the terminal on the right 1/3")
 	flag.Parse()
-	simulator.Run(*layout)
+	simulator.Run(simulator.Options{Layout: *layout})
 }

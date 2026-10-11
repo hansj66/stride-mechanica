@@ -58,3 +58,20 @@
     1. Watchdog on Overlord: halt if the input goes quiet (out of range), not only on a disconnect
     1. Pose mode while a button is held: the sticks shift the body (x, y) and turn it (yaw) instead of walking
     1. Configurable button and axis mapping (gamepads differ), and the stick and button state shown in the simulator
+
+## Ideas
+
+Larger features that aren't planned in detail yet.
+
+1. Sim-to-real: drive a real robot with the same code that walks it in the simulator
+    1. Live mode: the simulator sends the joint angles to real servos, through a USB Dynamixel adapter first and the Overlord later, so the virtual and the real robot walk side by side
+    1. Telemetry back from the servos (position, load, temperature), drawn in the views next to the planned values: shows overloaded joints and how far the real robot lags the plan
+    1. `cmd/overlord`: the gait engine without the views on the Overlord (it is pure Go already), driven by the gamepad (see the gamepad item above)
+1. Losing a leg: switch a leg off (a broken or overheated servo) and walk on with a gait planned for the remaining legs. The gaits are generated for any number of legs already
+1. Uneven ground: a height map in the views, feet that are lowered until they touch down (on the real robot: a jump in the servo's load), and a body that levels itself with the body pose
+1. Auto-design: given the servo model, body height, speed and payload, search the leg lengths and mount positions with the best torque margin, stride and stability. Builds on the checks of the "Validate a design" item
+1. Bill of materials: servos, screws, printed parts with their mass, print time and cost, and the pod's total weight (which the torque check in "Validate a design" needs as well)
+1. The browser version (see [docs/browser.md](docs/browser.md)): next steps
+    1. Share a pod as a link: the pod definition in the page's address, loaded when the page opens
+    1. Load and save pod files from the computer (upload and download), next to the browser's local storage
+    1. Touch controls for phones and tablets: an on-screen stick for walking and turning

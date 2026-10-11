@@ -7,3 +7,7 @@
 /goik/cad/.venv/
 /goik/cad/out/
 __pycache__/
+
+# Browser version: built by go run ./cmd/web
+/goik/web/mechanica.wasm
+/goik/web/wasm_exec.js

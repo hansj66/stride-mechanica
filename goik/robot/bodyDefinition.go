@@ -127,12 +127,18 @@ func (b *BodyDefinition) Load(filename string) (*BodyDefinition, error) {
 	if err != nil {
 		return nil, err
 	}
+	return ParseBodyDefinition(buf, filename)
+}
+
+// ParseBodyDefinition reads a saved body definition (as written by Save). The name (of the file, for example) is
+// used in error messages
+func ParseBodyDefinition(buf []byte, filename string) (*BodyDefinition, error) {
 	if len(buf) == 0 {
 		return nil, fmt.Errorf("Zero bytes read")
 	}
 
 	var definition BodyDefinition
-	err = json.Unmarshal(buf, &definition)
+	err := json.Unmarshal(buf, &definition)
 	if err != nil {
 		return nil, err
 	}

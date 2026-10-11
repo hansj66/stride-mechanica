@@ -13,6 +13,9 @@ the right 1/3, with the focus on the shell. The terminal is only moved on Window
 window is placed. `mechanica -layout=false` (or `go run . -layout=false`) leaves both windows where they open. The views
 window can be resized, and the views always fill it.
 
+The simulator also runs in a web browser, with the shell next to the views in the page: see
+[The browser version](browser.md).
+
 ## The views
 
 | View | Shows |

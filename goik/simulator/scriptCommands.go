@@ -15,10 +15,13 @@
 package simulator
 
 import (
+	"bytes"
+	"errors"
 	"fmt"
+	"io/fs"
 	"mechanica/robot"
 	"mechanica/script"
-	"path/filepath"
+	"path"
 	"strconv"
 	"strings"
 )
@@ -65,9 +68,16 @@ func (s *Shell) executeRunCmd(args []string) error {
 	}
 
 	name := strings.TrimSuffix(args[1], SCRIPT_EXTENSION)
-	commands, err := script.Load(filepath.Join(SCRIPTS_FOLDER, name+SCRIPT_EXTENSION))
+	text, err := fs.ReadFile(s.scripts, name+SCRIPT_EXTENSION)
+	if errors.Is(err, fs.ErrNotExist) || errors.Is(err, fs.ErrInvalid) {
+		return fmt.Errorf("there is no script called %s (see 'scripts')", name)
+	}
 	if err != nil {
 		return err
+	}
+	commands, err := script.Parse(bytes.NewReader(text))
+	if err != nil {
+		return fmt.Errorf("%s: %w", name+SCRIPT_EXTENSION, err)
 	}
 
 	engine, err := s.gaitEngine()
@@ -100,15 +110,15 @@ func (s *Shell) executeAbortCmd(args []string) error {
 func (s *Shell) executeScriptsCmd(args []string) error {
 	s.outputCh <- fmt.Sprintf("%+v", args)
 
-	files, err := filepath.Glob(filepath.Join(SCRIPTS_FOLDER, "*"+SCRIPT_EXTENSION))
+	files, err := fs.Glob(s.scripts, "*"+SCRIPT_EXTENSION)
 	if err != nil {
 		return err
 	}
 	if len(files) == 0 {
-		return fmt.Errorf("no scripts found in ./%s", SCRIPTS_FOLDER)
+		return fmt.Errorf("no scripts found")
 	}
 	for _, f := range files {
-		s.outputCh <- "\t" + strings.TrimSuffix(filepath.Base(f), SCRIPT_EXTENSION)
+		s.outputCh <- "\t" + strings.TrimSuffix(path.Base(f), SCRIPT_EXTENSION)
 	}
 	return nil
 }

@@ -5,6 +5,7 @@ Building and a quick start are in the [main README](../README.md). The documenta
 | Document | About |
 |---|---|
 | [docs/simulator.md](docs/simulator.md) | Using the simulator: the views, the example pods and all shell commands |
+| [docs/browser.md](docs/browser.md) | The browser version: using it, running it locally and publishing it |
 | [docs/designing-a-pod.md](docs/designing-a-pod.md) | Designing a pod: body, legs, segment lengths, joint angles and stance, with examples |
 | [docs/pod-designer.md](docs/pod-designer.md) | Plan for the interactive pod designer |
 | [docs/centipede.md](docs/centipede.md) | Segmented bodies: the centipede, its two joint legs and the metachronal gait |

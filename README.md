@@ -3,6 +3,7 @@
 <div align="center">
 <p>Multi-Legged Machine Design & Simulation</p>
 <p>Design · Simulate · Build</p>
+<p><b><a href="https://hansj66.github.io/stride-mechanica/">Try it in your browser</a></b> (or <a href="https://hansj66.github.io/stride-mechanica/?run=reset%209;run%20centipede">watch the centipede</a>)</p>
 </div>
 
 This is a tool for simulating and designing hexapods, octopods, or any pod you can imagine (as long as it is using limbs with three degrees of freedom and the inverse kinematics equations have a solution)
@@ -22,6 +23,7 @@ It has so far been tested on Mac and Windows
 | Document | About |
 |---|---|
 | [Using the simulator](./goik/docs/simulator.md) | The views, the example pods and all shell commands |
+| [The browser version](./goik/docs/browser.md) | The simulator in a web browser: using it, running it locally and publishing it |
 | [Designing a pod](./goik/docs/designing-a-pod.md) | Body, legs, segment lengths, joint angles and stance, with examples |
 | [Pod designer](./goik/docs/pod-designer.md) | Plan for the interactive pod designer |
 | [Centipede](./goik/docs/centipede.md) | Segmented bodies: the centipede, its two joint legs and the metachronal gait |
@@ -62,6 +64,7 @@ typed directly.
 | `make build` | `go build` | Build the simulator |
 | `make test` | `go test ./...` | Run the tests |
 | `make run` | `go run .` | Build and start the simulator |
+| `make web` | `go run ./cmd/web` | Build the [browser version](./goik/docs/browser.md) and serve it on http://localhost:8080 |
 | `make cad-setup` | `python cad/tools.py setup` | Install CadQuery in `cad/.venv`, needed for the CAD export (Python 3.9 - 3.12) |
 | `make cad-vendor` | `python cad/tools.py vendor` | Download the vendor servo models that can be downloaded, and explain the others |
 | `make cad-check` | `python cad/tools.py check` | Show what is installed, downloaded and measured for the CAD export |

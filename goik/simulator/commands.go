@@ -15,14 +15,12 @@
 package simulator
 
 import (
+	"encoding/json"
 	"fmt"
 	"mechanica/robot"
-	"os"
 	"strconv"
 	"strings"
 )
-
-const POD_FOLDER = "pods"
 
 func (s *Shell) executeEffectorsCmd(args []string) error {
 	s.outputCh <- "Current end effector positions:"
@@ -229,23 +227,19 @@ func (s *Shell) executeGaitCmd(args []string) error {
 func (s *Shell) executeSaveCmd(args []string) error {
 	s.outputCh <- fmt.Sprintf("%+v", args)
 
-	exists, err := folderExists(fmt.Sprintf("./%s", POD_FOLDER))
-	if err != nil {
-		return err
-	}
-
-	if !exists {
-		err := os.Mkdir(fmt.Sprintf("%s", POD_FOLDER), 0755)
-		if err != nil {
-			return err
-		}
-	}
-
 	if len(args) != 2 {
 		return fmt.Errorf("syntax error ('save <filename>'): %+v", args)
 	}
 
-	return s.Pod.BodyDefinition.Save(fmt.Sprintf("./%s/%s", POD_FOLDER, args[1]))
+	data, err := json.Marshal(s.Pod.BodyDefinition)
+	if err != nil {
+		return err
+	}
+	if err := s.pods.SavePod(args[1], data); err != nil {
+		return err
+	}
+	s.outputCh <- "Saved " + s.pods.PodLocation(args[1])
+	return nil
 }
 
 func (s *Shell) executeLoadCmd(args []string) error {
@@ -255,7 +249,11 @@ func (s *Shell) executeLoadCmd(args []string) error {
 		return fmt.Errorf("syntax error ('load <filename>'): %+v", args)
 	}
 
-	definition, err := s.Pod.BodyDefinition.Load(fmt.Sprintf("./%s/%s", POD_FOLDER, args[1]))
+	data, err := s.pods.LoadPod(args[1])
+	if err != nil {
+		return err
+	}
+	definition, err := robot.ParseBodyDefinition(data, s.pods.PodLocation(args[1]))
 	if err != nil {
 		return err
 	}
@@ -264,15 +262,4 @@ func (s *Shell) executeLoadCmd(args []string) error {
 	s.Pod.LoadBodyDefinition(definition)
 
 	return nil
-}
-
-func folderExists(path string) (bool, error) {
-	_, err := os.Stat(path)
-	if err == nil {
-		return true, nil
-	}
-	if os.IsNotExist(err) {
-		return false, nil
-	}
-	return false, err
 }

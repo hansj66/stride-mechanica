@@ -3,7 +3,7 @@
 
 PYTHON ?= python
 
-.PHONY: build test run cad-setup cad-vendor cad-check
+.PHONY: build test run web cad-setup cad-vendor cad-check
 
 build:
 	go build
@@ -13,6 +13,10 @@ test:
 
 run:
 	go run .
+
+# Build the browser version into web/ and serve it on http://localhost:8080
+web:
+	go run ./cmd/web
 
 # Install CadQuery in cad/.venv (needs Python 3.9 - 3.12)
 cad-setup:
