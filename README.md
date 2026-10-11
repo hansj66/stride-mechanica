@@ -1,4 +1,9 @@
-# GOIK hexapod designer
+<h1 align="center">STRIDE MECHANICA</h1>
+
+<div align="center">
+<p>Multi-Legged Machine Design & Simulation</p>
+<p>Design · Simulate · Build</p>
+</div>
 
 This is a tool for simulating and designing hexapods, octopods, or any pod you can imagine (as long as it is using limbs with three degrees of freedom and the inverse kinematics equations have a solution)
 
