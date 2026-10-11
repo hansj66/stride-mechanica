@@ -15,9 +15,9 @@
 package simulator
 
 import (
-	"GOIK/robot"
-	"GOIK/script"
 	"fmt"
+	"mechanica/robot"
+	"mechanica/script"
 	"path/filepath"
 	"strconv"
 	"strings"

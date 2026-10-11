@@ -15,8 +15,8 @@
 package views
 
 import (
-	"GOIK/robot"
 	"math"
+	"mechanica/robot"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"

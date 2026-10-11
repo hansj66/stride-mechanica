@@ -47,7 +47,7 @@ Without CadQuery, `export_cad` still writes the JSON, and the model can be built
 
 * **Servos**: the vendor model when it has been downloaded and measured, or a box with a horn sized from the datasheet
   ([servo-models.md](servo-models.md)). Every servo is centred on its leg plane: the case mid-plane goes through the
-  joint. Coordinates are in mm with Z up, so GOIK's +Z (towards the ground) becomes -Z.
+  joint. Coordinates are in mm with Z up, so the simulator's +Z (towards the ground) becomes -Z.
 * **Printable parts** ([cad/brackets.py](../cad/brackets.py)), for servo models with mounting features in
   `cad/servos.json` (the AX-12A and the STS3215):
   * two **body plates**, one on each case face of the coxa servos, screwed into the case holes. Cut outs for the horn

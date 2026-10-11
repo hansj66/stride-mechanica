@@ -15,8 +15,8 @@
 package main
 
 import (
-	"GOIK/simulator"
 	"flag"
+	"mechanica/simulator"
 )
 
 func main() {

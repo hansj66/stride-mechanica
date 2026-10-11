@@ -13,7 +13,7 @@ Hexapods can use tripod, ripple and wave gait. Pods with a different number of l
 
 I decided to make this tool to be able to iterate faster when designing my own hexapods.
 
-> No promises though. There will be [bugs](https://github.com/hansj66/goik/issues).
+> No promises though. There will be [bugs](https://github.com/hansj66/stride-mechanica/issues).
 
 It has so far been tested on Mac and Windows
 
@@ -49,7 +49,7 @@ Navigate to the goik/goik folder and type:
 >go build
 ```
 
-This will create an executable called "GOIK.exe" on Windows or "GOIK" on Mac and Linux. Run it from the goik/goik
+This will create an executable called "mechanica.exe" on Windows or "mechanica" on Mac and Linux. Run it from the goik/goik
 folder, since it looks for `scripts`, `pods` and `cad` relative to the current folder.
 
 ### Make targets
@@ -77,7 +77,7 @@ Installing make:
 
 ## Usage
 
-GOIK will open a command shell and a graphical XZ/XY and isometric view along with a visualization of the current gait pattern
+Stride Mechanica opens a command shell and a graphical XZ/XY and isometric view along with a visualization of the current gait pattern
 
 Type `help` in the command shell to get a list of commands, or `help <section>` (design, walk, pose, scripts, servos) for a part of it. There are 10 different preloaded models (`reset 0` to `reset 9`: an insect with twisted joints is 8, a centipede 9) that can be played with to get a feel for the simulator. See [Using the simulator](./goik/docs/simulator.md) for all commands, and [Designing a pod](./goik/docs/designing-a-pod.md) for designing your own pod (body, legs and stance), with examples.
 

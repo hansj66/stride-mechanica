@@ -1,6 +1,6 @@
 # Kinematics
 
-The forward and inverse kinematics GOIK uses for a three joint leg (coxa, femur, tibia). They are not tied to a
+The forward and inverse kinematics Stride Mechanica uses for a three joint leg (coxa, femur, tibia). They are not tied to a
 particular servo type, but assume that the servo midpoint is at 0 degrees. The inverse kinematics equations are in
 [solver.go](../robot/solver.go) and should be easy to port to other languages and platforms.
 

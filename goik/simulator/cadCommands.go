@@ -15,8 +15,8 @@
 package simulator
 
 import (
-	"GOIK/robot"
 	"fmt"
+	"mechanica/robot"
 	"os"
 	"os/exec"
 	"path/filepath"

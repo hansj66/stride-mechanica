@@ -21,7 +21,7 @@ package robot
 	how it is oriented, plus the points needed for simple placeholder parts. cad/goik_cad.py turns
 	it into a STEP assembly with CadQuery (STEP is far too complex to write from Go).
 
-	Coordinates are converted to the usual CAD convention: millimetres, Z up. GOIK has +Z towards the
+	Coordinates are converted to the usual CAD convention: millimetres, Z up. Stride Mechanica has +Z towards the
 	ground, so everything is rotated 180 degrees around X: (x, y, z) -> (x, -y, -z). This keeps the
 	frames right handed.
 
@@ -155,7 +155,7 @@ func (a *CadAssembly) Save(path string) error {
 	return os.WriteFile(path, data, 0644)
 }
 
-// cadConversion rotates 180 degrees around X: GOIK (+Z towards the ground) to CAD (Z up)
+// cadConversion rotates 180 degrees around X: Stride Mechanica (+Z towards the ground) to CAD (Z up)
 var cadConversion = mat.NewDense(4, 4, []float64{
 	1, 0, 0, 0,
 	0, -1, 0, 0,

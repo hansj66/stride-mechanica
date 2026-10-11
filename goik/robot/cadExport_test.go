@@ -95,7 +95,7 @@ func TestCadAssemblyFollowsKinematics(t *testing.T) {
 		}
 	}
 
-	// In the GOIK frame the feet are at +Z (below the body). In CAD they must be below the body: -Z
+	// In the simulator's frame the feet are at +Z (below the body). In CAD they must be below the body: -Z
 	if foot := a.Legs[0].Points[EFFECTOR_ORIGIN_INDEX]; foot[2] >= 0 {
 		t.Errorf("foot should be below the body (z < 0) in CAD coordinates, got %v", foot)
 	}

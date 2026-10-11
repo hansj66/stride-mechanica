@@ -15,7 +15,7 @@
 package simulator
 
 import (
-	"GOIK/robot"
+	"mechanica/robot"
 	"strings"
 	"testing"
 )

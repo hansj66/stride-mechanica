@@ -26,7 +26,7 @@ Run it on a design only once: a second run adds a second set of rigid groups and
 * Servos are found by their position, since Fusion gives every servo the same name (the STEP file stores the servo
   model once).
 * Each joint is a revolute as-built joint around its servo's axis. The axes are drawn as construction lines in the
-  sketch "GOIK joint axes".
+  sketch "Stride Mechanica joint axes".
 * Fusion's API ignores a custom rotation axis on as-built joints (`JointDirections.CustomJointDirection`) and uses the
   joint geometry's Z axis instead. So each joint's geometry is made from its axis line
   (`JointGeometry.createByCurve`), whose Z axis follows the line, and the script checks that Fusion uses the intended

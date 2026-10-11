@@ -15,7 +15,7 @@
 package views
 
 import (
-	"GOIK/robot"
+	"mechanica/robot"
 	"testing"
 
 	"github.com/hajimehoshi/ebiten/v2"

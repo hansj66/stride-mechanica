@@ -15,17 +15,17 @@
 package simulator
 
 import (
-	"GOIK/robot"
-	"GOIK/views"
 	"fmt"
 	"log"
+	"mechanica/robot"
+	"mechanica/views"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
 const window_size = 1024
-const window_title = "Pod simulator"
+const window_title = "Stride Mechanica"
 
 type Game struct {
 	views views.RenderViews

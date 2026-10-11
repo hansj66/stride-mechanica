@@ -1,4 +1,4 @@
-# GOIK documentation
+# Stride Mechanica documentation
 
 Building and a quick start are in the [main README](../README.md). The documentation:
 

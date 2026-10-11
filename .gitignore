@@ -1,6 +1,7 @@
 # Simulator binaries (Windows / macOS / Linux)
 *.exe
-/goik/GOIK
+/goik/mechanica
+*.exe~
 
 # CAD export: Python environment and generated models
 /goik/cad/.venv/

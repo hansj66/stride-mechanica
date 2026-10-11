@@ -1,4 +1,4 @@
-# Convenience targets for GOIK. Everything here can also be run directly, which is the way to go
+# Convenience targets for Stride Mechanica. Everything here can also be run directly, which is the way to go
 # on Windows without make: see the commands below, the main README and docs/cad-export.md.
 
 PYTHON ?= python

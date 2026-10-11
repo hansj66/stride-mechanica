@@ -12,15 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Fusion 360 script: imports a GOIK CAD export and recreates its joints.
+"""Fusion 360 script: imports a Stride Mechanica CAD export and recreates its joints.
 
-STEP files don't carry joints into Fusion, so the GOIK export writes them to <name>_joints.json
+STEP files don't carry joints into Fusion, so the Stride Mechanica export writes them to <name>_joints.json
 next to <name>.step. Run this script and select the joints file. It
 1. imports <name>.step (unless the design already contains it, for example because it was opened
    or imported by hand),
 2. makes a rigid group of every set of parts that move together (the body, and the coxa, femur
    and tibia links of each leg),
-3. adds a revolute as-built joint for every servo, on the joint's axis (sketch "GOIK joint axes"),
+3. adds a revolute as-built joint for every servo, on the joint's axis (sketch "Stride Mechanica joint axes"),
 4. grounds the body.
 Then use Drive Joints (or Motion Study) to move the legs. Angles are relative to the rest pose
 the pod was exported in.
@@ -44,14 +44,14 @@ def run(context):
         ui = app.userInterface
 
         dialog = ui.createFileDialog()
-        dialog.title = "Select a GOIK joints file (<name>_joints.json)"
-        dialog.filter = "GOIK joints (*_joints.json);;All files (*.*)"
+        dialog.title = "Select a Stride Mechanica joints file (<name>_joints.json)"
+        dialog.filter = "Stride Mechanica joints (*_joints.json);;All files (*.*)"
         if dialog.showOpen() != adsk.core.DialogResults.DialogOK:
             return
         with open(dialog.filename, encoding="utf-8") as f:
             data = json.load(f)
         if data.get("format") != "goik-joints" or data.get("version") != 1:
-            ui.messageBox(f"{dialog.filename} is not a GOIK joints file (version 1)")
+            ui.messageBox(f"{dialog.filename} is not a Stride Mechanica joints file (version 1)")
             return
         step = dialog.filename[:-len("_joints.json")] + ".step"
         if not os.path.isfile(step):
@@ -86,7 +86,7 @@ def run(context):
         ui.messageBox(message)
     except Exception:
         if ui:
-            ui.messageBox("GOIK joints failed:\n{}".format(traceback.format_exc()))
+            ui.messageBox("Stride Mechanica joints failed:\n{}".format(traceback.format_exc()))
 
 
 def import_step(app, root, step):
@@ -172,7 +172,7 @@ def make_joints(root, data, groups, warnings):
     their joint geometry instead. So the geometry is made from the axis line itself (its Z axis
     follows the line), and the joint turns around that Z axis. Every joint's axis is checked."""
     sketch = root.sketches.add(root.xYConstructionPlane)
-    sketch.name = "GOIK joint axes"
+    sketch.name = "Stride Mechanica joint axes"
     made = 0
     for j in data["joints"]:
         parent, child = groups.get(j["parent"]), groups.get(j["child"])

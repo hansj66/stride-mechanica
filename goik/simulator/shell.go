@@ -15,10 +15,10 @@
 package simulator
 
 import (
-	"GOIK/control"
-	"GOIK/robot"
-	"GOIK/script"
 	"log"
+	"mechanica/control"
+	"mechanica/robot"
+	"mechanica/script"
 	"strings"
 	"sync"
 	"time"
@@ -119,8 +119,6 @@ func (s *Shell) Run() {
 	s.ui = chatui
 	s.mu.Unlock()
 
-	s.outputCh <- "Pod playground"
-
 	go func() {
 		for command := range s.commandCh {
 			if strings.ToLower(command) == "/quit" {
@@ -139,11 +137,14 @@ func (s *Shell) Run() {
 		// this is done in a goroutine because it will block if the UI is not running.
 		chatui.SetStatus("type /quit to exit")
 
-		s.outputCh <- "-----------------------------------"
-		s.outputCh <- "Hexapod Designer"
+		s.outputCh <- "----------------------------------------"
+		s.outputCh <- "Stride Mechanica"
+		s.outputCh <- "Multi-Legged Machine Design & Simulation"
+		s.outputCh <- "Design · Simulate · Build"
+		s.outputCh <- ""
 		s.outputCh <- "Copyright Hans Jørgen Grimstad 2024"
 		s.outputCh <- "www.TimeExpander.com"
-		s.outputCh <- "-----------------------------------"
+		s.outputCh <- "----------------------------------------"
 		s.outputCh <- ""
 		s.outputCh <- "Type 'help' for a list of commands"
 

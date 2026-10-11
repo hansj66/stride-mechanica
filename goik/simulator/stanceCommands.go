@@ -15,9 +15,9 @@
 package simulator
 
 import (
-	"GOIK/robot"
 	"fmt"
 	"math"
+	"mechanica/robot"
 	"strconv"
 	"strings"
 )

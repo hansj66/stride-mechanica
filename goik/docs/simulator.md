@@ -1,6 +1,6 @@
 # Using the simulator
 
-Start the simulator from the `goik/goik` folder (`make run`, `go run .` or the built `GOIK` / `GOIK.exe`). It looks
+Start the simulator from the `goik/goik` folder (`make run`, `go run .` or the built `mechanica` / `mechanica.exe`). It looks
 for `scripts`, `pods` and `cad` relative to the current folder.
 
 It opens a window with four views and a command shell in the terminal. Type commands in the shell; `help` lists them
@@ -10,7 +10,7 @@ the window, and closing the window ends the shell.
 At start up the views window fills the left 2/3 of the screen (without the taskbar), and the terminal with the shell
 the right 1/3, with the focus on the shell. The terminal is only moved on Windows, and only if it is a terminal window
 (Windows Terminal or the classic console): started from an editor's terminal (VS Code's, for example), only the views
-window is placed. `GOIK -layout=false` (or `go run . -layout=false`) leaves both windows where they open. The views
+window is placed. `mechanica -layout=false` (or `go run . -layout=false`) leaves both windows where they open. The views
 window can be resized, and the views always fill it.
 
 ## The views

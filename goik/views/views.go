@@ -15,10 +15,10 @@
 package views
 
 import (
-	"GOIK/robot"
 	"image"
 	"image/color"
 	"math"
+	"mechanica/robot"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"

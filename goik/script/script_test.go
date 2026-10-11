@@ -15,7 +15,7 @@
 package script
 
 import (
-	"GOIK/robot"
+	"mechanica/robot"
 	"strings"
 	"testing"
 )

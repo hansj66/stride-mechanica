@@ -18,9 +18,9 @@
 package control
 
 import (
-	"GOIK/robot"
 	"fmt"
 	"math"
+	"mechanica/robot"
 )
 
 /*

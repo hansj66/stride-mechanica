@@ -15,8 +15,8 @@
 package simulator
 
 import (
-	"GOIK/control"
-	"GOIK/robot"
+	"mechanica/control"
+	"mechanica/robot"
 	"testing"
 )
 

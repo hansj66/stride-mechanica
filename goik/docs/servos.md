@@ -40,7 +40,7 @@ kinematics bits of the code is not really tied to any particular servo types, bu
 midpoint is at 0 degrees.
 
 The servos are driven by a separate controller board. The target is the Raspberry Pi CM5 based
-[Overlord](https://github.com/hansj66/overlord) board, which is meant to run GOIK's gait engine directly (see
+[Overlord](https://github.com/hansj66/overlord) board, which is meant to run Stride Mechanica's gait engine directly (see
 [design-notes.md](design-notes.md)).
 
 ### Servo addressing scheme

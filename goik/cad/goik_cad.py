@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Builds a STEP assembly (and STL) of a pod from a GOIK CAD assembly description.
+"""Builds a STEP assembly (and STL) of a pod from a Stride Mechanica CAD assembly description.
 
 The description is written by the simulator's export_cad command. Every servo is placed at its
 joint, either as a vendor STEP model (when the file is in cad/vendor/ and its mount transform is
@@ -210,7 +210,7 @@ def joints_description(assembly, servo, part_names):
                 "parent": parent,
                 "child": f"{prefix}_{joint['name']}",
                 "origin": [round(v, 4) for v in frame[:3, 3]],
-                # Positive rotation around this axis is a positive joint angle in GOIK
+                # Positive rotation around this axis is a positive joint angle in Stride Mechanica
                 "axis": [round(v, 6) for v in frame[:3, 2]],
                 "rest_angle": joint["angle"],
             })
@@ -350,7 +350,7 @@ def main():
     with open(args.assembly, encoding="utf-8") as f:
         assembly = json.load(f)
     if assembly.get("format") != "goik-cad-assembly" or assembly.get("version") != 1:
-        sys.exit(f"{args.assembly} is not a GOIK CAD assembly description (version 1)")
+        sys.exit(f"{args.assembly} is not a Stride Mechanica CAD assembly description (version 1)")
     with open(args.servos, encoding="utf-8") as f:
         servos = json.load(f)
 

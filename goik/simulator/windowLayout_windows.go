@@ -31,8 +31,8 @@ import (
 	that thread waits for Update. So windows are moved asynchronously (SWP_ASYNCWINDOWPOS, ShowWindowAsync), since a
 	synchronous call would wait for the owning thread and deadlock.
 
-	The terminal is the window in the foreground when GOIK starts. It is only moved if it is a terminal window
-	(Windows Terminal or the classic console), not if GOIK runs in an editor's terminal, like VS Code's.
+	The terminal is the window in the foreground when Stride Mechanica starts. It is only moved if it is a terminal window
+	(Windows Terminal or the classic console), not if it runs in an editor's terminal, like VS Code's.
 */
 
 var (
@@ -93,7 +93,7 @@ func newWindowLayout() *windowLayout {
 	case windowsTerminalClass, classicConsoleWindowClass:
 		return &windowLayout{terminal: hwnd}
 	}
-	return &windowLayout{note: "Window layout: GOIK isn't running in a terminal window (an editor's terminal?), so only the views window is placed"}
+	return &windowLayout{note: "Window layout: Stride Mechanica isn't running in a terminal window (an editor's terminal?), so only the views window is placed"}
 }
 
 // apply places the windows. Call it once the views window (titled title) is open.

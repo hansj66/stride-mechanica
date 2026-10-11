@@ -15,10 +15,10 @@
 package simulator
 
 import (
-	"GOIK/control"
-	"GOIK/robot"
 	"fmt"
 	"math"
+	"mechanica/control"
+	"mechanica/robot"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )

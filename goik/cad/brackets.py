@@ -14,7 +14,7 @@
 
 """Printable brackets for the CAD export.
 
-All parts are generated from the joint frames in the GOIK assembly description and the servo's
+All parts are generated from the joint frames in the Stride Mechanica assembly description and the servo's
 mounting features in servos.json ("mounting"). Every servo is centred on its leg plane: its case
 mid-plane goes through the joint. In a servo's "centred" coordinates (the placement matrix in the
 assembly description) the case mid-plane is z = 0, the horn face is z = -mid_plane, and so on.

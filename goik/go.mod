@@ -1,4 +1,4 @@
-module GOIK
+module mechanica
 
 go 1.21.0
 

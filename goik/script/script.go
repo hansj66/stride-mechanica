@@ -39,11 +39,11 @@
 package script
 
 import (
-	"GOIK/robot"
 	"bufio"
 	"fmt"
 	"io"
 	"math"
+	"mechanica/robot"
 	"os"
 	"strconv"
 	"strings"
