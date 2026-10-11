@@ -157,8 +157,3 @@ and 7 (`reset 6`, `reset 7`) are designed around AX-12A and STS3215 servos. The 
 ![Example pod 6 exported with export_cad, in Fusion 360](./goik/pictures/example_cad_export.png)
 
 Pod definitions can be saved and loaded with `save` and `load`.
-
-
-## Future work
-
-There are _issues_ and functionality that is missing / flaky. Since this is a hobby project, I can't make any promises when and if these will be fixed. I am making this code public as is.
